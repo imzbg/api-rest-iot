@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard IoT · Sistemas Distribuídos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Trabalho Final · Sistemas Distribuídos</p>
+        <h1>API REST IoT + Dashboard</h1>
+        <p class="lede">
+          API escutando <code>POST /api/sensor/data</code> na porta <strong>8080</strong>, persistindo em SQLite
+          e exibindo leituras em tempo quase real.
+        </p>
+        <div class="status-row">
+          <span class="pill" id="status-pill">Checando API...</span>
+          <span class="pill pill-soft">Banco: <code>iot.db</code></span>
+        </div>
+      </div>
+      <div class="cta">
+        <div class="badge">Simulador ➜ API ➜ Dashboard</div>
+        <div class="steps">
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+          <div class="step-dot"></div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="cards">
+        <article class="card">
+          <p class="card-label">Leituras registradas</p>
+          <p class="card-value" id="stat-readings">0</p>
+          <p class="card-sub">total armazenado no SQLite</p>
+        </article>
+        <article class="card">
+          <p class="card-label">Sensores ativos</p>
+          <p class="card-value" id="stat-sensors">0</p>
+          <p class="card-sub">identificadores distintos</p>
+        </article>
+        <article class="card">
+          <p class="card-label">Última atualização</p>
+          <p class="card-value" id="stat-updated">–</p>
+          <p class="card-sub">sincronizado a cada 5s</p>
+        </article>
+      </section>
+
+      <section class="panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Snapshot</p>
+            <h2>Última leitura por sensor</h2>
+          </div>
+          <button class="refresh" id="refresh-btn">Atualizar agora</button>
+        </header>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Sensor</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="latest-body">
+              <tr><td colspan="4" class="muted">Sem leituras ainda.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Tendência rápida</p>
+            <h2>Mini-gráficos por sensor</h2>
+          </div>
+          <p class="muted">Usando as últimas 200 leituras</p>
+        </header>
+        <div class="charts-grid" id="charts-grid">
+          <p class="muted">Aguardando leituras...</p>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Histórico</p>
+            <h2>Últimas leituras recebidas</h2>
+          </div>
+          <p class="muted">Ordenado por timestamp (limite 100)</p>
+        </header>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Sensor</th>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Timestamp</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <tr><td colspan="5" class="muted">Sem dados armazenados.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel panel-compact">
+        <header class="panel-header">
+          <div>
+            <p class="eyebrow">Guia rápido</p>
+            <h2>Como rodar localmente</h2>
+          </div>
+        </header>
+        <div class="guide">
+          <div>
+            <p class="guide-title">1) Subir a API (porta 8080)</p>
+            <pre><code>npm start</code></pre>
+          </div>
+          <div>
+            <p class="guide-title">2) Iniciar simulador IoT</p>
+            <pre><code>java -jar simulator-sensores-iot.jar</code></pre>
+          </div>
+          <div>
+            <p class="guide-title">3) Abrir o dashboard</p>
+            <pre><code>http://localhost:8080/</code></pre>
+          </div>
+          <p class="muted">
+            O simulador envia leituras JSON para <code>/api/sensor/data</code>. A página se atualiza automaticamente.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>API + Dashboard IoT — pronto para receber o <em>simulator-sensores-iot.jar</em>.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
