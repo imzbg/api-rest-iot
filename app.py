@@ -82,13 +82,19 @@ def receive_data():
 
 @app.route("/api/readings")
 def list_readings():
-    limit = min(int(request.args.get("limit", 100)), 500)
+    raw_limit = request.args.get("limit", "100")
+    try:
+        limit = int(raw_limit)
+    except ValueError:
+        limit = 100
+    limit = min(max(limit, 1), 500)
+
     db = get_db()
     rows = db.execute(
         """
         SELECT id, sensor_id AS sensorId, type, value, timestamp
         FROM readings
-        ORDER BY datetime(timestamp) DESC
+        ORDER BY timestamp DESC
         LIMIT ?
         """,
         (limit,),
