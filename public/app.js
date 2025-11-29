@@ -208,5 +208,5 @@ const loadData = async () => {
 refreshBtn?.addEventListener('click', () => loadData());
 
 loadData();
-setInterval(loadData, 5000);
+setInterval(loadData, 3000);
 window.addEventListener('resize', () => renderCharts(cachedReadings));
