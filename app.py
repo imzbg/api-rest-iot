@@ -132,11 +132,17 @@ def stats():
         'SELECT COALESCE(type, "unknown") AS type, COUNT(*) as count FROM readings GROUP BY type'
     ).fetchall()
     by_type = [dict(r) for r in by_type_rows]
+    last_ts_row = db.execute(
+        "SELECT MAX(timestamp) AS last_ts FROM readings"
+    ).fetchone()
+    last_ts = last_ts_row["last_ts"]
+
     return jsonify(
         {
             "totalReadings": total_readings,
             "totalSensors": total_sensors,
             "byType": by_type,
+            "lastTimestamp": last_ts,
         }
     )
 
