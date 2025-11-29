@@ -29,7 +29,6 @@ def close_db(exception=None):
 
 
 def init_db():
-    # Usamos uma conexão direta aqui para não depender de contexto do Flask.
     conn = sqlite3.connect(DB_PATH)
     conn.executescript(
         """
@@ -155,7 +154,6 @@ def get_reading(reading_id):
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_frontend(path):
-    # Serve arquivos estáticos e faz fallback para index.html para rotas desconhecidas (exceto /api/*).
     if path.startswith("api/"):
         return jsonify({"error": "Not found"}), 404
 
